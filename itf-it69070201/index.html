@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>สุ่มเมนูอาหาร</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Kanit", Tahoma, sans-serif;
+      background: #fff4e0;
+      color: #3b2a1a;
+      min-height: 100vh;
+    }
+
+    /* Navbar อยู่ด้านบนสุดของเว็บ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 32px;
+      background: #d9480f;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .navbar ul {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .navbar a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    /* ส่วนแสดงผลข้อมูลอาหาร */
+    .food-card {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .food-card img {
+      display: block;
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      background: #ffe3c2;
+    }
+
+    .food-info {
+      padding: 20px 24px 24px;
+    }
+
+    .food-info h2 {
+      font-size: 24px;
+      color: #d9480f;
+    }
+
+    .food-info p {
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .price {
+      margin-top: 14px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    /* ปุ่มสุ่ม */
+    #random-btn {
+      margin-top: 28px;
+      padding: 14px 40px;
+      font-family: inherit;
+      font-size: 20px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #f76707, #d9480f);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #a63a0a;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    #random-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    #random-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #a63a0a;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #7a5c3e;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">🍽️ สุ่มเมนู</div>
+    <ul>
+      <li><a href="#">หน้าแรก</a></li>
+      <li><a href="#menu">สุ่มเมนู</a></li>
+    </ul>
+  </nav>
+
+  <main id="menu">
+    <h1>วันนี้กินอะไรดี?</h1>
+
+    <div class="food-card">
+      <img id="food-img" src="images/krapao.jpg" alt="รูปอาหาร">
+      <div class="food-info">
+        <h2 id="food-name">กดปุ่มสุ่มเพื่อเริ่ม</h2>
+        <p id="food-desc">ยังไม่รู้จะกินอะไร ให้เราช่วยเลือกให้</p>
+        <p class="price" id="food-price"></p>
+      </div>
+    </div>
+
+    <button type="button" id="random-btn">🎲 สุ่มเมนู</button>
+  </main>
+
+  <footer>ใบงานสัปดาห์ที่ 15 · ศุภวิชญ์ ประดาจี 69070201</footer>
+
+  <script>
+    // รายการอาหาร (5 รายการขึ้นไป) ใส่รูปไว้ในโฟลเดอร์ images
+    const foods = [
+      {
+        name: "ผัดกะเพราหมูสับไข่ดาว",
+        desc: "กะเพราหอม ๆ ผัดกับหมูสับ เผ็ดจัดจ้าน เสิร์ฟพร้อมไข่ดาวกรอบ ๆ",
+        price: 60,
+        img: "images/krapao.jpg"
+      },
+      {
+        name: "ผัดไทยกุ้งสด",
+        desc: "เส้นจันท์ผัดซอสเปรี้ยวหวาน ใส่กุ้งสด ถั่วงอก และถั่วลิสงคั่ว",
+        price: 80,
+        img: "images/padthai.jpg"
+      },
+      {
+        name: "ข้าวมันไก่",
+        desc: "ไก่ต้มนุ่ม ข้าวมันหอม เสิร์ฟพร้อมน้ำจิ้มและน้ำซุปร้อน ๆ",
+        price: 55,
+        img: "images/khaomangai.jpg"
+      },
+      {
+        name: "ต้มยำกุ้ง",
+        desc: "น้ำซุปรสเปรี้ยวเผ็ดร้อนจัดจ้าน หอมสมุนไพร ใส่กุ้งตัวโต",
+        price: 150,
+        img: "images/tomyum.jpg"
+      },
+      {
+        name: "ส้มตำไทย",
+        desc: "มะละกอสับตำใหม่ ๆ รสเปรี้ยวหวานเผ็ด ใส่ถั่วลิสงและกุ้งแห้ง",
+        price: 50,
+        img: "images/somtam.jpg"
+      }
+    ]
+
+    const food_img = document.getElementById("food-img")
+    const food_name = document.getElementById("food-name")
+    const food_desc = document.getElementById("food-desc")
+    const food_price = document.getElementById("food-price")
+    const random_btn = document.getElementById("random-btn")
+
+    let last_index = -1 // เก็บตำแหน่งที่สุ่มได้ครั้งก่อน เพื่อไม่ให้ซ้ำติดกัน
+
+    // แสดงข้อมูลอาหารตามตำแหน่งที่ระบุ
+    function showFood(index) {
+      let food = foods[index]
+      food_img.src = food.img
+      food_img.alt = food.name
+      food_name.textContent = food.name
+      food_desc.textContent = food.desc
+      food_price.textContent = "ราคา " + food.price + " บาท"
+    }
+
+    // กดปุ่มสุ่ม: สุ่มตำแหน่งใหม่ที่ไม่ซ้ำกับครั้งก่อน แล้วแสดงผล
+    random_btn.addEventListener("click", () => {
+      let index = Math.floor(Math.random() * foods.length)
+      while (index === last_index) {
+        index = Math.floor(Math.random() * foods.length)
+      }
+      last_index = index
+      showFood(index)
+    })
+  </script>
+</body>
+</html>
